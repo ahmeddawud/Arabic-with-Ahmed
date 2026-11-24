@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="am">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#075b42">
+<title>Arabic with Ahmed</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f7f4;color:#18352a}
+header{background:#075b42;color:white;text-align:center;padding:25px 12px}
+header h1{margin:0;font-size:26px}
+header p{margin:8px 0 0}
+nav{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;padding:12px;background:white}
+button{border:0;border-radius:9px;padding:12px;background:#087653;color:white;font-size:15px;cursor:pointer}
+main{max-width:650px;margin:auto;padding:15px}
+.card{background:white;border-radius:14px;padding:18px;margin:12px 0;box-shadow:0 2px 9px #0001}
+h2{color:#087653}
+.arabic{font-size:32px;direction:rtl;text-align:center;margin:15px}
+.word{font-size:25px;text-align:center;color:#075b42}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.actions button{background:#d6a83c;color:#222}
+footer{text-align:center;padding:25px;color:#667}
+</style>
+</head>
+<body>
+
+<header>
+<h1>📚 Arabic with Ahmed</h1>
+<p>አረብኛን ከዜሮ ጀምሮ ይማሩ</p>
+<p>تعلم اللغة العربية بسهولة</p>
+</header>
+
+<nav>
+<button onclick="show('home')">🏠 መነሻ</button>
+<button onclick="show('letters')">🔤 ፊደላት</button>
+<button onclick="show('words')">📖 ቃላት</button>
+<button onclick="show('talk')">💬 ውይይት</button>
+<button onclick="show('quiz')">📝 ፈተና</button>
+</nav>
+
+<main id="content"></main>
+
+<footer>© 2026 Arabic with Ahmed</footer>
+
+<script>
+const letters=[
+["ا","አሊፍ"],["ب","ባእ"],["ت","ታእ"],
+["ث","ሣእ"],["ج","ጂም"],["ح","ሐእ"],
+["خ","ኻእ"],["د","ዳል"],["ذ","ዛል"],
+["ر","ራእ"],["ز","ዛይ"],["س","ሲን"],
+["ش","ሺን"],["ص","ሷድ"],["ض","ዷድ"],
+["ط","ጧእ"],["ظ","ዧእ"],["ع","ዐይን"],
+["غ","ገይን"],["ف","ፋእ"],["ق","ቃፍ"],
+["ك","ካፍ"],["ل","ላም"],["م","ሚም"],
+["ن","ኑን"],["ه","ሃእ"],["و","ዋው"],
+["ي","ያእ"]
+];
+
+const words=[
+["مرحبا","ሰላም"],["شكرا","አመሰግናለሁ"],
+["نعم","አዎ"],["لا","አይ"],
+["ماء","ውሃ"],["كتاب","መጽሐፍ"],
+["بيت","ቤት"],["مدرسة","ትምህርት ቤት"],
+["أهلا","እንኳን ደህና መጡ"],
+["كيف حالك؟","እንዴት ነህ?"]
+];
+
+function speak(text,lang){
+if(!('speechSynthesis' in window)){
+alert("የድምፅ ማንበቢያ በዚህ መሣሪያ ላይ አይደገፍም።");
+return;
+}
+speechSynthesis.cancel();
+let msg=new SpeechSynthesisUtterance(text);
+msg.lang=lang;
+msg.rate=0.85;
+speechSynthesis.speak(msg);
+}
+
+function show(page){
+let c=document.getElementById("content");
+
+if(page==="home"){
+c.innerHTML=`
+<div class="card">
+<h2>እንኳን ወደ Arabic with Ahmed በደህና መጡ!</h2>
+<p>አረብኛን ከመሠረቱ በአማርኛ ይማሩ።</p>
+<p>ትምህርትዎን ከፊደላት ይጀምሩ።</p>
+</div>
+<div class="card">
+<h2>የመማር ክፍሎች</h2>
+<p>🔤 የአረብኛ ፊደላት</p>
+<p>📖 መሠረታዊ ቃላት</p>
+<p>💬 ዕለታዊ ውይይቶች</p>
+<p>📝 የእውቀት ፈተና</p>
+</div>`;
+}
+
+if(page==="letters"){
+c.innerHTML='<h2>የአረብኛ ፊደላት</h2>';
+letters.forEach(x=>{
+c.innerHTML+=`
+<div class="card">
+<div class="arabic">${x[0]}</div>
+<p style="text-align:center">${x[1]}</p>
+<div class="actions">
+<button onclick="speak('${x[0]}','ar-SA')">🔊 አረብኛ</button>
+</div></div>`;
+});
+}
+
+if(page==="words"){
+c.innerHTML='<h2>መሠረታዊ ቃላት</h2>';
+words.forEach(x=>{
+c.innerHTML+=`
+<div class="card">
+<div class="arabic">${x[0]}</div>
+<div class="word">${x[1]}</div>
+<div class="actions">
+<button onclick="speak('${x[0]}','ar-SA')">🔊 አረብኛ</button>
+<button onclick="speak('${x[1]}','am-ET')">🔊 አማርኛ</button>
+</div></div>`;
+});
+}
+
+if(page==="talk"){
+c.innerHTML=`
+<h2>ዕለታዊ ውይይት</h2>
+<div class="card">
+<div class="arabic">السلام عليكم</div>
+<p class="word">ሰላም ለእናንተ ይሁን</p>
+<div class="actions">
+<button onclick="speak('السلام عليكم','ar-SA')">🔊 Arabic</button>
+<button onclick="speak('ሰላም ለእናንተ ይሁን','am-ET')">🔊 Amharic</button>
+</div>
+</div>
+<div class="card">
+<div class="arabic">كيف حالك؟</div>
+<p class="word">እንዴት ነህ?</p>
+<div class="actions">
+<button onclick="speak('كيف حالك؟','ar-SA')">🔊 Arabic</button>
+<button onclick="speak('እንዴት ነህ','am-ET')">🔊 Amharic</button>
+</div>
+</div>
+<div class="card">
+<div class="arabic">أنا بخير</div>
+<p class="word">ደህና ነኝ</p>
+<div class="actions">
+<button onclick="speak('أنا بخير','ar-SA')">🔊 Arabic</button>
+<button onclick="speak('ደህና ነኝ','am-ET')">🔊 Amharic</button>
+</div>
+</div>`;
+}
+
+if(page==="quiz"){
+c.innerHTML=`
+<div class="card">
+<h2>የአረብኛ ፈተና</h2>
+<p>የሚከተለው ቃል ትርጉም ምንድነው?</p>
+<div class="arabic">كتاب</div>
+<div class="actions">
+<button onclick="answer(false)">ቤት</button>
+<button onclick="answer(true)">መጽሐፍ</button>
+<button onclick="answer(false)">ውሃ</button>
+</div>
+<p id="result"></p>
+</div>`;
+}
+}
+
+function answer(correct){
+document.getElementById("result").innerText=
+correct?"✅ ትክክል ነው!":"❌ እንደገና ሞክር!";
+}
+
+show('home');
+</script>
+</body>
+</html>
