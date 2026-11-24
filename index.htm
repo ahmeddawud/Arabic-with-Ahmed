@@ -1,181 +1,521 @@
-
 <!DOCTYPE html>
 <html lang="am">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#075b42">
+<meta name="theme-color" content="#1769aa">
 <title>Arabic with Ahmed</title>
+<meta name="description" content="Learn Arabic with Amharic explanations, pronunciation and beginner lessons.">
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f3f7f4;color:#18352a}
-header{background:#075b42;color:white;text-align:center;padding:25px 12px}
-header h1{margin:0;font-size:26px}
-header p{margin:8px 0 0}
-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;padding:12px;background:white}
-button{border:0;border-radius:9px;padding:12px;background:#087653;color:white;font-size:15px;cursor:pointer}
-main{max-width:650px;margin:auto;padding:15px}
-.card{background:white;border-radius:14px;padding:18px;margin:12px 0;box-shadow:0 2px 9px #0001}
-h2{color:#087653}
-.arabic{font-size:32px;direction:rtl;text-align:center;margin:15px}
-.word{font-size:25px;text-align:center;color:#075b42}
-.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-.actions button{background:#d6a83c;color:#222}
-footer{text-align:center;padding:25px;color:#667}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--blue:#1769aa;--dark:#104a7c;--light:#eaf4fc;--text:#203040}
+body{font-family:Arial,sans-serif;background:#f4f8fc;color:var(--text);padding-bottom:85px}
+.header{background:var(--blue);color:#fff;padding:15px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{background:#fff;color:var(--blue);width:48px;height:48px;border-radius:13px;display:grid;place-items:center;font-size:30px;font-weight:bold}
+.header h2{font-size:18px}.header small{color:#e2f1ff}
+.profile{background:transparent;color:#fff;border:none;font-size:25px}
+main{padding:15px;max-width:650px;margin:auto}
+.hero{background:linear-gradient(135deg,#1769aa,#0d3d70);color:#fff;padding:28px 20px;border-radius:18px;margin:12px 0 25px}
+.hero p{font-size:14px}.hero h1{margin:15px 0;font-size:27px;direction:rtl}.hero h3{margin-bottom:20px}
+.hero button{background:#fff;color:var(--blue);border:none;padding:12px 20px;border-radius:9px;font-weight:bold;font-size:15px}
+.section-title{margin:20px 0 12px}
+.categories{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.category{background:#fff;padding:20px 10px;border-radius:14px;text-align:center;box-shadow:0 2px 10px #0000000a;border:1px solid #e1edf7}
+.category span{font-size:30px;color:var(--blue)}
+.category h4{margin-top:10px;font-size:14px}
+.page{display:none}.page.active{display:block}
+.page>h2{margin-bottom:6px}
+.word-list{display:grid;gap:12px;margin-top:15px}
+.word-card{background:#fff;border:1px solid #e1edf7;padding:18px;border-radius:14px;box-shadow:0 2px 8px #00000008}
+.arabic{direction:rtl;text-align:right;font-size:25px;font-weight:bold;color:var(--dark);margin-bottom:12px}
+.pronunciation{color:#1769aa;margin:8px 0;font-size:16px}
+.meaning{font-size:16px;margin-bottom:12px}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.actions button{background:var(--light);color:var(--dark);border:none;border-radius:8px;padding:9px 12px;font-size:14px}
+.actions button.done{background:#d7f3dd;color:#1b6b34}
+select,input[type=search],input[type=file]{width:100%;padding:13px;margin-top:12px;border:1px solid #ccddeb;border-radius:9px;background:#fff;font-size:15px}
+.letters{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:15px}
+.letter{background:#fff;border:1px solid #d9e7f3;border-radius:10px;padding:12px 4px;text-align:center;color:var(--blue)}
+.letter b{display:block;font-size:30px}
+.letter small{display:block;font-size:11px;color:#456;margin-top:4px}
+.quiz-answer{display:block;width:100%;margin-top:10px;padding:13px;border:1px solid #ccddeb;border-radius:10px;background:var(--light);font-size:16px;color:var(--dark)}
+.quiz-answer.ok{background:#d7f3dd}.quiz-answer.bad{background:#fde0e0}
+#quizResult{margin-top:12px;font-weight:bold}
+.score{color:#456;margin-bottom:8px}
+.tabs{display:flex;gap:8px;margin-top:12px}
+.tabs button{flex:1;padding:10px;border:1px solid #ccddeb;background:#fff;border-radius:9px;color:var(--dark)}
+.tabs button.on{background:var(--blue);color:#fff}
+iframe{width:100%;height:70vh;border:1px solid #ccddeb;border-radius:10px;margin-top:12px}
+.bottom-nav{position:fixed;bottom:0;left:0;width:100%;background:#fff;display:flex;justify-content:space-around;padding:10px 3px;border-top:1px solid #dce8f2;box-shadow:0 -3px 12px #0000000a;z-index:10}
+.bottom-nav button{background:transparent;border:none;color:var(--blue);font-size:20px;display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.6}
+.bottom-nav button.on{opacity:1;font-weight:bold}
+.bottom-nav small{font-size:10px}
+@media(max-width:360px){.categories{gap:8px}.category h4{font-size:12px}.hero h1{font-size:23px}}
 </style>
 </head>
 <body>
 
-<header>
-<h1>📚 Arabic with Ahmed</h1>
-<p>አረብኛን ከዜሮ ጀምሮ ይማሩ</p>
-<p>تعلم اللغة العربية بسهولة</p>
+<header class="header">
+  <div class="brand">
+    <div class="logo">ع</div>
+    <div><h2>Arabic with Ahmed</h2><small>አረብኛ ለኢትዮጵያውያን</small></div>
+  </div>
+  <button class="profile" data-go="profile">👤</button>
 </header>
 
-<nav>
-<button onclick="show('home')">🏠 መነሻ</button>
-<button onclick="show('letters')">🔤 ፊደላት</button>
-<button onclick="show('words')">📖 ቃላት</button>
-<button onclick="show('talk')">💬 ውይይት</button>
-<button onclick="show('quiz')">📝 ፈተና</button>
+<main>
+<section id="home" class="page active">
+  <div class="hero">
+    <p>እንኳን ወደ አፕሊኬሽናችን በደህና መጡ!</p>
+    <h1>تعلم العربية بسهولة</h1>
+    <h3>አረብኛን በቀላሉ ይማሩ!</h3>
+    <button data-go="lessons">ትምህርት ጀምር ←</button>
+  </div>
+  <div class="section-title"><h3>📚 የትምህርት ምድቦች</h3></div>
+  <div class="categories">
+    <div class="category" data-go="alphabet"><span>ا ب ت</span><h4>የአረብኛ ፊደላት</h4></div>
+    <div class="category" data-go="lessons"><span>📖</span><h4>መሠረታዊ ቃላት</h4></div>
+    <div class="category" data-go="conversation"><span>💬</span><h4>ውይይት</h4></div>
+    <div class="category" data-go="work"><span>🏢</span><h4>የሥራ አረብኛ</h4></div>
+    <div class="category" data-go="travel"><span>✈️</span><h4>የጉዞ አረብኛ</h4></div>
+    <div class="category" data-go="pdf"><span>📕</span><h4>PDF መጽሐፍት</h4></div>
+  </div>
+  <div class="section-title"><h3>⭐ የዛሬ ቃላት</h3></div>
+  <div id="dailyWords" class="word-list"></div>
+</section>
+
+<section id="lessons" class="page">
+  <h2>📚 የአረብኛ ቃላት</h2>
+  <select id="dialect">
+    <option value="fusha">ፉስሓ العربية الفصحى</option>
+    <option value="gulf">የገልፍ አረብኛ اللهجة الخليجية</option>
+  </select>
+  <input id="search" type="search" placeholder="ቃል ፈልግ...">
+  <div class="tabs">
+    <button id="tabAll" class="on">ሁሉም</button>
+    <button id="tabFav">❤️ ተወዳጆች</button>
+  </div>
+  <div id="wordResults" class="word-list"></div>
+</section>
+
+<section id="alphabet" class="page">
+  <h2>🔤 የአረብኛ ፊደላት</h2>
+  <p>ፊደሉን ይጫኑ፤ ድምፁን ይሰማሉ።</p>
+  <div id="letters" class="letters"></div>
+</section>
+
+<section id="conversation" class="page"><h2>💬 የውይይት ልምምድ</h2><div id="conversationList" class="word-list"></div></section>
+<section id="work" class="page"><h2>🏢 የሥራ ቦታ አረብኛ</h2><div id="workList" class="word-list"></div></section>
+<section id="travel" class="page"><h2>✈️ የጉዞ አረብኛ</h2><div id="travelList" class="word-list"></div></section>
+
+<section id="pdf" class="page">
+  <h2>📕 PDF መጽሐፍት</h2>
+  <p>የአረብኛ መማሪያ መጽሐፍትህን እዚህ ታገኛለህ።</p>
+  <div id="pdfList" class="word-list"></div>
+</section>
+
+<section id="quiz" class="page">
+  <h2>📝 የአረብኛ ፈተና</h2>
+  <div id="quizBox" class="word-card"></div>
+</section>
+
+<section id="profile" class="page">
+  <h2>👤 የእኔ መለያ</h2>
+  <div class="word-card">
+    <h3>Arabic with Ahmed</h3>
+    <p>የተማርካቸው ቃላት፦ <b id="learned">0</b></p>
+    <p>የተወደዱ ቃላት፦ <b id="favorites">0</b></p>
+    <p>የፈተና ምርጥ ውጤት፦ <b id="best">0</b></p>
+    <p>የአፕሊኬሽኑ ስሪት፦ 1.1</p>
+    <div class="actions" style="margin-top:12px"><button id="resetBtn">🗑️ ሁሉንም አጥፋ</button></div>
+  </div>
+</section>
+</main>
+
+<nav class="bottom-nav">
+  <button data-go="home">🏠<small>Home</small></button>
+  <button data-go="lessons">📚<small>Lessons</small></button>
+  <button data-go="pdf">📕<small>PDF</small></button>
+  <button data-go="quiz">📝<small>Quiz</small></button>
+  <button data-go="profile">👤<small>Profile</small></button>
 </nav>
 
-<main id="content"></main>
-
-<footer>© 2026 Arabic with Ahmed</footer>
-
 <script>
-const letters=[
-["ا","አሊፍ"],["ب","ባእ"],["ت","ታእ"],
-["ث","ሣእ"],["ج","ጂም"],["ح","ሐእ"],
-["خ","ኻእ"],["د","ዳል"],["ذ","ዛል"],
-["ر","ራእ"],["ز","ዛይ"],["س","ሲን"],
-["ش","ሺን"],["ص","ሷድ"],["ض","ዷድ"],
-["ط","ጧእ"],["ظ","ዧእ"],["ع","ዐይን"],
-["غ","ገይን"],["ف","ፋእ"],["ق","ቃፍ"],
-["ك","ካፍ"],["ل","ላም"],["م","ሚም"],
-["ن","ኑን"],["ه","ሃእ"],["و","ዋው"],
-["ي","ያእ"]
+var words = [
+ {fusha:"السَّلَامُ عَلَيْكُمْ",gulf:"السَّلَامْ عَلَيْكُمْ",pronunciation:"አስሰላሙ ዓለይኩም",meaning:"ሰላም በእናንተ ላይ ይሁን",category:"greeting"},
+ {fusha:"صَبَاحُ الْخَيْرِ",gulf:"صَبَاحُ الْخَيْر",pronunciation:"ሰባሑል ኸይር",meaning:"እንደምን አደርክ",category:"greeting"},
+ {fusha:"مَسَاءُ الْخَيْرِ",gulf:"مَسَاءُ الْخَيْر",pronunciation:"መሳኡል ኸይር",meaning:"እንደምን አመሸህ",category:"greeting"},
+ {fusha:"شُكْرًا",gulf:"مَشْكُور",pronunciation:"ሹክራን / መሽኩር",meaning:"አመሰግናለሁ",category:"greeting"},
+ {fusha:"مَعَ السَّلَامَةِ",gulf:"مَعَ السَّلَامَة",pronunciation:"መዐ ሰላማ",meaning:"ደህና ሁን",category:"greeting"},
+ {fusha:"نَعَمْ",gulf:"إِيوَه",pronunciation:"ነዐም / ኢዋ",meaning:"አዎ",category:"conversation"},
+ {fusha:"لَا",gulf:"لَا",pronunciation:"ላ",meaning:"አይ / አይደለም",category:"conversation"},
+ {fusha:"كَيْفَ حَالُكَ؟",gulf:"شْلُونَك؟",pronunciation:"ከይፋ ሓሉክ / ሽሎነክ",meaning:"እንዴት ነህ?",category:"conversation"},
+ {fusha:"لَا أَفْهَمُ",gulf:"مَا أَفْهَم",pronunciation:"ላ አፍሃሙ / ማ አፍሃም",meaning:"አልገባኝም",category:"conversation"},
+ {fusha:"مَا اسْمُكَ؟",gulf:"شُو اسْمَك؟",pronunciation:"ማ ኢስሙክ / ሹ ኢስመክ",meaning:"ስምህ ማን ነው?",category:"conversation"},
+ {fusha:"أَنَا مِنْ إِثْيُوبْيَا",gulf:"أَنَا مِنْ إِثْيُوبْيَا",pronunciation:"አና ሚን ኢትዮብያ",meaning:"እኔ ከኢትዮጵያ ነኝ",category:"conversation"},
+ {fusha:"مِنْ فَضْلِكَ",gulf:"لَوْ سَمَحْتَ",pronunciation:"ሚን ፈድሊክ / ሎ ሰመሕት",meaning:"እባክህ",category:"conversation"},
+ {fusha:"عَفْوًا",gulf:"عَفْوًا",pronunciation:"ዐፍዋን",meaning:"ይቅርታ / ምንም አይደለም",category:"conversation"},
+ {fusha:"سَاعِدْنِي",gulf:"سَاعِدْنِي",pronunciation:"ሳዒድኒ",meaning:"እርዳኝ",category:"conversation"},
+ {fusha:"كَمِ السِّعْرُ؟",gulf:"بِكَمْ؟",pronunciation:"ከሚስሲዕሩ / ቢከም?",meaning:"ዋጋው ስንት ነው?",category:"shopping"},
+ {fusha:"غَالٍ جِدًّا",gulf:"غَالِي مَرَّة",pronunciation:"ጋሊን ጂዳን / ጋሊ ማራ",meaning:"በጣም ውድ ነው",category:"shopping"},
+ {fusha:"أَيْنَ الْعَمَلُ؟",gulf:"وَيْنَ الشُّغْل؟",pronunciation:"አይነል ዓመሉ / ወይነሽ ሹግል?",meaning:"ሥራው የት ነው?",category:"work"},
+ {fusha:"أُرِيدُ أَنْ أَعْمَلَ",gulf:"أَبْغَى أَشْتَغِل",pronunciation:"ኡሪዱ አን አዕመል / አብጋ አሽተጊል",meaning:"መሥራት እፈልጋለሁ",category:"work"},
+ {fusha:"كَمِ الرَّاتِبُ؟",gulf:"كَمْ الرَّاتِب؟",pronunciation:"ከር-ራቲብ / ከም ራቲብ",meaning:"ደመወዙ ስንት ነው?",category:"work"},
+ {fusha:"مَتَى أَبْدَأُ؟",gulf:"مَتَى أَبْدَأ؟",pronunciation:"ማታ አብደኡ",meaning:"መቼ ልጀምር?",category:"work"},
+ {fusha:"أَيْنَ الْمُدِيرُ؟",gulf:"وَيْنَ الْمُدِير؟",pronunciation:"አይነል ሙዲር / ወይነል ሙዲር",meaning:"ሥራ አስኪያጁ የት ነው?",category:"work"},
+ {fusha:"أُرِيدُ مَاءً",gulf:"أَبْغَى مَاء",pronunciation:"ኡሪዱ ማአን / አብጋ ማእ",meaning:"ውሃ እፈልጋለሁ",category:"daily"},
+ {fusha:"أَنَا جَائِعٌ",gulf:"أَنَا جُوعَان",pronunciation:"አና ጃኢዕ / አና ጁዓን",meaning:"ርቦኛል",category:"daily"},
+ {fusha:"أَنَا عَطْشَانُ",gulf:"أَنَا عَطْشَان",pronunciation:"አና ዐጥሻን",meaning:"ጠምቶኛል",category:"daily"},
+ {fusha:"أَنَا مَرِيضٌ",gulf:"أَنَا مَرِيض",pronunciation:"አና ማሪድ",meaning:"ታምሜያለሁ",category:"daily"},
+ {fusha:"كَمِ السَّاعَةُ؟",gulf:"كَمْ السَّاعَة؟",pronunciation:"ከሲ ሳዐ / ከም ሳዐ",meaning:"ሰዓቱ ስንት ነው?",category:"daily"},
+ {fusha:"أَيْنَ الْحَمَّامُ؟",gulf:"وَيْنَ الْحَمَّام؟",pronunciation:"አይነል ሐምማም / ወይነል ሐምማም",meaning:"መጸዳጃ ቤቱ የት ነው?",category:"travel"},
+ {fusha:"أَيْنَ الْمُسْتَشْفَى؟",gulf:"وَيْنَ الْمُسْتَشْفَى؟",pronunciation:"አይነል ሙስተሽፋ / ወይነል ሙስተሽፋ?",meaning:"ሆስፒታሉ የት ነው?",category:"travel"},
+ {fusha:"أَيْنَ الْمَطَارُ؟",gulf:"وَيْنَ الْمَطَار؟",pronunciation:"አይነል ማጣር / ወይነል ማጣር",meaning:"አውሮፕላን ማረፊያው የት ነው?",category:"travel"},
+ {fusha:"أَيْنَ الْفُنْدُقُ؟",gulf:"وَيْنَ الْفُنْدُق؟",pronunciation:"አይነል ፉንዱቅ / ወይነል ፉንዱቅ",meaning:"ሆቴሉ የት ነው?",category:"travel"},
+ {fusha:"تَذْكِرَةٌ",gulf:"تَذْكِرَة",pronunciation:"ተዝኪራ",meaning:"ትኬት",category:"travel"},
+ {fusha:"تَاكْسِي",gulf:"تَاكْسِي",pronunciation:"ታክሲ",meaning:"ታክሲ",category:"travel"}
 ];
 
-const words=[
-["مرحبا","ሰላም"],["شكرا","አመሰግናለሁ"],
-["نعم","አዎ"],["لا","አይ"],
-["ماء","ውሃ"],["كتاب","መጽሐፍ"],
-["بيت","ቤት"],["مدرسة","ትምህርት ቤት"],
-["أهلا","እንኳን ደህና መጡ"],
-["كيف حالك؟","እንዴት ነህ?"]
+var letters = [
+ ["ا","أَلِف","አሊፍ"],["ب","بَاء","ባእ"],["ت","تَاء","ታእ"],["ث","ثَاء","ሳእ"],
+ ["ج","جِيم","ጂም"],["ح","حَاء","ሐእ"],["خ","خَاء","ኸእ"],["د","دَال","ዳል"],
+ ["ذ","ذَال","ዛል"],["ر","رَاء","ራእ"],["ز","زَاي","ዛይ"],["س","سِين","ሲን"],
+ ["ش","شِين","ሺን"],["ص","صَاد","ሷድ"],["ض","ضَاد","ዷድ"],["ط","طَاء","ጧእ"],
+ ["ظ","ظَاء","ዟእ"],["ع","عَيْن","ዐይን"],["غ","غَيْن","ገይን"],["ف","فَاء","ፋእ"],
+ ["ق","قَاف","ቃፍ"],["ك","كَاف","ካፍ"],["ل","لَام","ላም"],["م","مِيم","ሚም"],
+ ["ن","نُون","ኑን"],["ه","هَاء","ሃእ"],["و","وَاو","ዋው"],["ي","يَاء","ያእ"]
 ];
 
-function speak(text,lang){
-if(!('speechSynthesis' in window)){
-alert("የድምፅ ማንበቢያ በዚህ መሣሪያ ላይ አይደገፍም።");
-return;
+/* ---------- storage (safe) ---------- */
+function load(key, def){
+  try { var v = localStorage.getItem(key); return v === null ? def : JSON.parse(v); }
+  catch(e){ return def; }
 }
-speechSynthesis.cancel();
-let msg=new SpeechSynthesisUtterance(text);
-msg.lang=lang;
-msg.rate=0.85;
-speechSynthesis.speak(msg);
+function save(key, val){
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){}
 }
+var learned = load("learnedList", []);
+var favorites = load("favorites", []);
+var bestScore = load("bestScore", 0);
+var onlyFav = false;
 
-function show(page){
-let c=document.getElementById("content");
-
-if(page==="home"){
-c.innerHTML=`
-<div class="card">
-<h2>እንኳን ወደ Arabic with Ahmed በደህና መጡ!</h2>
-<p>አረብኛን ከመሠረቱ በአማርኛ ይማሩ።</p>
-<p>ትምህርትዎን ከፊደላት ይጀምሩ።</p>
-</div>
-<div class="card">
-<h2>የመማር ክፍሎች</h2>
-<p>🔤 የአረብኛ ፊደላት</p>
-<p>📖 መሠረታዊ ቃላት</p>
-<p>💬 ዕለታዊ ውይይቶች</p>
-<p>📝 የእውቀት ፈተና</p>
-</div>`;
+/* ---------- navigation ---------- */
+function showPage(id){
+  var pages = document.querySelectorAll(".page");
+  for (var i=0;i<pages.length;i++) pages[i].classList.remove("active");
+  var sel = document.getElementById(id);
+  if (sel){ sel.classList.add("active"); window.scrollTo(0,0); }
+  var nav = document.querySelectorAll(".bottom-nav button");
+  for (var j=0;j<nav.length;j++){
+    nav[j].classList.toggle("on", nav[j].getAttribute("data-go") === id);
+  }
+  updateProfile();
 }
 
-if(page==="letters"){
-c.innerHTML='<h2>የአረብኛ ፊደላት</h2>';
-letters.forEach(x=>{
-c.innerHTML+=`
-<div class="card">
-<div class="arabic">${x[0]}</div>
-<p style="text-align:center">${x[1]}</p>
-<div class="actions">
-<button onclick="speak('${x[0]}','ar-SA')">🔊 አረብኛ</button>
-</div></div>`;
+/* ---------- speech: device TTS first, online fallback ---------- */
+var currentAudio = null;
+var speechVoices = [];
+var speechRetryTimer = null;
+
+function refreshSpeechVoices(){
+  if (!('speechSynthesis' in window)) return;
+  speechVoices = window.speechSynthesis.getVoices() || [];
+}
+if ('speechSynthesis' in window){
+  refreshSpeechVoices();
+  window.speechSynthesis.onvoiceschanged = refreshSpeechVoices;
+}
+
+function findVoice(lang){
+  var wanted = lang.toLowerCase();
+  var short = wanted.split('-')[0];
+  for (var i=0;i<speechVoices.length;i++){
+    var v=(speechVoices[i].lang||'').toLowerCase();
+    if(v===wanted) return speechVoices[i];
+  }
+  for (var j=0;j<speechVoices.length;j++){
+    var c=(speechVoices[j].lang||'').toLowerCase();
+    if(c===short || c.indexOf(short+'-')===0) return speechVoices[j];
+  }
+  return null;
+}
+
+function playOnlineTTS(text, lang){
+  try {
+    if(currentAudio){ currentAudio.pause(); currentAudio=null; }
+    var code = lang.toLowerCase().indexOf('ar')===0 ? 'ar' : 'am';
+    var clean = String(text).replace(/[\\u064B-\\u065F\\u0670]/g,'').trim();
+    currentAudio = new Audio('https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl='+code+'&q='+encodeURIComponent(clean));
+    currentAudio.preload='auto';
+    currentAudio.onerror=function(){
+      alert((code==='ar'?'የአረብኛ':'የአማርኛ')+' የOnline ድምጽ አልተጫወተም። ኢንተርኔትንና የሚዲያ ድምጽን ያረጋግጡ።');
+    };
+    var result=currentAudio.play();
+    if(result && result.catch) result.catch(function(){
+      alert('ድምጹ ለመጫወት አልቻለም። ኢንተርኔትንና የስልኩን ድምጽ ያረጋግጡ።');
+    });
+  } catch(e){
+    alert('ድምጽ ማጫወት አልተቻለም።');
+  }
+}
+
+function speak(text, lang){
+  if(!text) return;
+  if(speechRetryTimer){ clearTimeout(speechRetryTimer); speechRetryTimer=null; }
+  if(currentAudio){ try{currentAudio.pause();}catch(e){} currentAudio=null; }
+  var synth = ('speechSynthesis' in window) ? window.speechSynthesis : null;
+  if(!synth || typeof SpeechSynthesisUtterance==='undefined'){
+    playOnlineTTS(text,lang);
+    return;
+  }
+  refreshSpeechVoices();
+  var voice=findVoice(lang);
+  if(!voice){
+    // Some Android WebViews load the voice list shortly after the page opens.
+    speechRetryTimer=setTimeout(function(){
+      refreshSpeechVoices();
+      var laterVoice=findVoice(lang);
+      if(laterVoice) speakWithVoice(text,lang,laterVoice);
+      else playOnlineTTS(text,lang);
+    },700);
+    return;
+  }
+  speakWithVoice(text,lang,voice);
+}
+
+function speakWithVoice(text,lang,voice){
+  try{
+    var synth=window.speechSynthesis;
+    synth.cancel();
+    var utterance=new SpeechSynthesisUtterance(text);
+    utterance.lang=voice.lang||lang;
+    utterance.voice=voice;
+    utterance.rate=0.85;
+    utterance.pitch=1;
+    utterance.volume=1;
+    var usedFallback=false;
+    utterance.onerror=function(){
+      if(!usedFallback){ usedFallback=true; playOnlineTTS(text,lang); }
+    };
+    synth.speak(utterance);
+  }catch(e){
+    playOnlineTTS(text,lang);
+  }
+}
+
+/* ---------- cards ---------- */
+function getDialect(){
+  var d = document.getElementById("dialect");
+  return d ? d.value : "fusha";
+}
+function makeCard(word, index){
+  var arabic = word[getDialect()];
+  var fav = favorites.indexOf(index) !== -1;
+  var done = learned.indexOf(index) !== -1;
+  return '<div class="word-card">' +
+    '<div class="arabic" dir="rtl">' + arabic + '</div>' +
+    '<div class="pronunciation">🔤 ' + word.pronunciation + '</div>' +
+    '<div class="meaning">🇪🇹 ' + word.meaning + '</div>' +
+    '<div class="actions">' +
+      '<button data-act="ar" data-i="' + index + '">🔊 አረብኛ</button>' +
+      '<button data-act="am" data-i="' + index + '">🔊 አማርኛ</button>' +
+      '<button class="' + (done ? "done" : "") + '" data-act="learn" data-i="' + index + '">' + (done ? "✓ ተማርኩ" : "✓ ተማርኩ?") + '</button>' +
+      '<button data-act="fav" data-i="' + index + '">' + (fav ? "❤️" : "🤍") + ' ተወዳጅ</button>' +
+    '</div></div>';
+}
+function listHTML(items){
+  return items.map(function(it){ return makeCard(it.word, it.index); }).join("");
+}
+function indexed(){
+  return words.map(function(w,i){ return {word:w, index:i}; });
+}
+
+function renderWords(){
+  var box = document.getElementById("wordResults");
+  var q = document.getElementById("search").value.toLowerCase().trim();
+  var items = indexed().filter(function(it){
+    if (onlyFav && favorites.indexOf(it.index) === -1) return false;
+    return !q ||
+      it.word.meaning.toLowerCase().indexOf(q) !== -1 ||
+      it.word.pronunciation.toLowerCase().indexOf(q) !== -1 ||
+      it.word.fusha.indexOf(q) !== -1 ||
+      it.word.gulf.indexOf(q) !== -1;
+  });
+  box.innerHTML = items.length ? listHTML(items) :
+    "<p>" + (onlyFav ? "እስካሁን ተወዳጅ ቃል የለም።" : "ይህ ቃል አልተገኘም።") + "</p>";
+}
+function renderDaily(){
+  var day = Math.floor(Date.now() / 86400000);
+  var start = (day * 3) % words.length;
+  var items = [];
+  for (var k=0;k<3;k++){
+    var idx = (start + k) % words.length;
+    items.push({word:words[idx], index:idx});
+  }
+  document.getElementById("dailyWords").innerHTML = listHTML(items);
+}
+function renderCategory(id, cats){
+  var items = indexed().filter(function(it){ return cats.indexOf(it.word.category) !== -1; });
+  document.getElementById(id).innerHTML = listHTML(items);
+}
+function renderAll(){
+  renderWords();
+  renderDaily();
+  renderCategory("conversationList", ["greeting","conversation"]);
+  renderCategory("workList", ["work"]);
+  renderCategory("travelList", ["travel","daily","shopping"]);
+  updateProfile();
+}
+
+function renderLetters(){
+  document.getElementById("letters").innerHTML = letters.map(function(l,i){
+    return '<button class="letter" data-letter="' + i + '"><b>' + l[0] + '</b><small>' + l[1] + '</small><small>' + l[2] + '</small></button>';
+  }).join("");
+}
+
+/* ---------- actions ---------- */
+function toggleLearned(i){
+  var p = learned.indexOf(i);
+  if (p === -1) learned.push(i); else learned.splice(p,1);
+  save("learnedList", learned);
+  renderAll();
+}
+function toggleFavorite(i){
+  var p = favorites.indexOf(i);
+  if (p === -1) favorites.push(i); else favorites.splice(p,1);
+  save("favorites", favorites);
+  renderAll();
+}
+function updateProfile(){
+  document.getElementById("learned").textContent = learned.length;
+  document.getElementById("favorites").textContent = favorites.length;
+  document.getElementById("best").textContent = bestScore;
+}
+
+/* ---------- PDF ---------- */
+function setupPDF(){
+  document.getElementById("pdfList").innerHTML =
+    '<div class="word-card"><h3>📕 የራስዎን PDF መጽሐፍ ይጨምሩ</h3>' +
+    '<input type="file" id="pdfUpload" accept="application/pdf">' +
+    '<p id="pdfStatus" style="margin-top:10px"></p><div id="pdfView"></div></div>';
+  document.getElementById("pdfUpload").addEventListener("change", function(){
+    var file = this.files[0];
+    var status = document.getElementById("pdfStatus");
+    var view = document.getElementById("pdfView");
+    if (!file) return;
+    if (file.type !== "application/pdf"){ status.textContent = "PDF ፋይል ይምረጡ።"; return; }
+    var url = URL.createObjectURL(file);
+    status.textContent = "📖 " + file.name;
+    view.innerHTML = '<iframe src="' + url + '"></iframe>' +
+      '<p style="margin-top:8px"><a href="' + url + '" target="_blank">ካልታየ እዚህ ይክፈቱ</a></p>';
+  });
+}
+
+/* ---------- Quiz ---------- */
+var quizIndex = 0, quizScore = 0, quizTotal = 0, quizLocked = false, current = null;
+
+function shuffle(a){
+  for (var i=a.length-1;i>0;i--){
+    var j = Math.floor(Math.random()*(i+1));
+    var t=a[i]; a[i]=a[j]; a[j]=t;
+  }
+  return a;
+}
+function newQuestion(){
+  var correct = Math.floor(Math.random()*words.length);
+  var opts = [correct];
+  while (opts.length < 4){
+    var r = Math.floor(Math.random()*words.length);
+    if (opts.indexOf(r) === -1) opts.push(r);
+  }
+  shuffle(opts);
+  current = {correct: correct, opts: opts};
+  quizLocked = false;
+  renderQuiz();
+}
+function renderQuiz(){
+  var w = words[current.correct];
+  document.getElementById("quizBox").innerHTML =
+    '<p class="score">ውጤት፦ ' + quizScore + ' / ' + quizTotal + '</p>' +
+    '<h3 dir="rtl" style="font-size:24px">' + w.fusha + '</h3>' +
+    '<p style="margin-top:6px">ትርጉሙ ምንድን ነው?</p>' +
+    current.opts.map(function(o){
+      return '<button class="quiz-answer" data-q="' + o + '">' + words[o].meaning + '</button>';
+    }).join("") +
+    '<p id="quizResult"></p>';
+}
+function checkAnswer(btn){
+  if (quizLocked) return;
+  var choice = Number(btn.getAttribute("data-q"));
+  var res = document.getElementById("quizResult");
+  quizTotal++;
+  quizLocked = true;
+  if (choice === current.correct){
+    quizScore++;
+    btn.classList.add("ok");
+    res.textContent = "✅ ትክክል ነው!";
+    if (quizScore > bestScore){ bestScore = quizScore; save("bestScore", bestScore); }
+  } else {
+    btn.classList.add("bad");
+    var all = document.querySelectorAll(".quiz-answer");
+    for (var i=0;i<all.length;i++){
+      if (Number(all[i].getAttribute("data-q")) === current.correct) all[i].classList.add("ok");
+    }
+    res.textContent = "❌ ትክክለኛው ተመልክቷል";
+  }
+  setTimeout(newQuestion, 1400);
+}
+
+/* ---------- events (one place, no inline handlers) ---------- */
+document.addEventListener("click", function(e){
+  var t = e.target;
+  var go = t.closest("[data-go]");
+  if (go){ showPage(go.getAttribute("data-go")); return; }
+
+  var act = t.closest("[data-act]");
+  if (act){
+    var i = Number(act.getAttribute("data-i"));
+    var a = act.getAttribute("data-act");
+    if (a === "ar") speak(words[i][getDialect()], "ar-SA");
+    else if (a === "am") speak(words[i].meaning, "am-ET");
+    else if (a === "learn") toggleLearned(i);
+    else if (a === "fav") toggleFavorite(i);
+    return;
+  }
+  var lt = t.closest("[data-letter]");
+  if (lt){ speak(letters[Number(lt.getAttribute("data-letter"))][0], "ar-SA"); return; }
+
+  var qa = t.closest("[data-q]");
+  if (qa){ checkAnswer(qa); return; }
 });
-}
 
-if(page==="words"){
-c.innerHTML='<h2>መሠረታዊ ቃላት</h2>';
-words.forEach(x=>{
-c.innerHTML+=`
-<div class="card">
-<div class="arabic">${x[0]}</div>
-<div class="word">${x[1]}</div>
-<div class="actions">
-<button onclick="speak('${x[0]}','ar-SA')">🔊 አረብኛ</button>
-<button onclick="speak('${x[1]}','am-ET')">🔊 አማርኛ</button>
-</div></div>`;
+document.getElementById("dialect").addEventListener("change", renderAll);
+document.getElementById("search").addEventListener("input", renderWords);
+document.getElementById("tabAll").addEventListener("click", function(){
+  onlyFav = false;
+  this.classList.add("on"); document.getElementById("tabFav").classList.remove("on");
+  renderWords();
 });
-}
+document.getElementById("tabFav").addEventListener("click", function(){
+  onlyFav = true;
+  this.classList.add("on"); document.getElementById("tabAll").classList.remove("on");
+  renderWords();
+});
+document.getElementById("resetBtn").addEventListener("click", function(){
+  if (confirm("ሁሉንም የተማርካቸውን እና ተወዳጆችን ልጥፋ?")){
+    learned = []; favorites = []; bestScore = 0;
+    save("learnedList", learned); save("favorites", favorites); save("bestScore", 0);
+    renderAll();
+  }
+});
 
-if(page==="talk"){
-c.innerHTML=`
-<h2>ዕለታዊ ውይይት</h2>
-<div class="card">
-<div class="arabic">السلام عليكم</div>
-<p class="word">ሰላም ለእናንተ ይሁን</p>
-<div class="actions">
-<button onclick="speak('السلام عليكم','ar-SA')">🔊 Arabic</button>
-<button onclick="speak('ሰላም ለእናንተ ይሁን','am-ET')">🔊 Amharic</button>
-</div>
-</div>
-<div class="card">
-<div class="arabic">كيف حالك؟</div>
-<p class="word">እንዴት ነህ?</p>
-<div class="actions">
-<button onclick="speak('كيف حالك؟','ar-SA')">🔊 Arabic</button>
-<button onclick="speak('እንዴት ነህ','am-ET')">🔊 Amharic</button>
-</div>
-</div>
-<div class="card">
-<div class="arabic">أنا بخير</div>
-<p class="word">ደህና ነኝ</p>
-<div class="actions">
-<button onclick="speak('أنا بخير','ar-SA')">🔊 Arabic</button>
-<button onclick="speak('ደህና ነኝ','am-ET')">🔊 Amharic</button>
-</div>
-</div>`;
-}
-
-if(page==="quiz"){
-c.innerHTML=`
-<div class="card">
-<h2>የአረብኛ ፈተና</h2>
-<p>የሚከተለው ቃል ትርጉም ምንድነው?</p>
-<div class="arabic">كتاب</div>
-<div class="actions">
-<button onclick="answer(false)">ቤት</button>
-<button onclick="answer(true)">መጽሐፍ</button>
-<button onclick="answer(false)">ውሃ</button>
-</div>
-<p id="result"></p>
-</div>`;
-}
-}
-
-function answer(correct){
-document.getElementById("result").innerText=
-correct?"✅ ትክክል ነው!":"❌ እንደገና ሞክር!";
-}
-
-show('home');
+/* ---------- start ---------- */
+renderLetters();
+renderAll();
+setupPDF();
+newQuestion();
+showPage("home");
 </script>
 </body>
 </html>
