@@ -217,152 +217,158 @@ function showPage(id){
   updateProfile();
 }
 
-/* ---------- speech ----------
-   1) recorded male-voice file from the audio/ folder (works offline)
-   2) device text-to-speech (male voice preferred when the phone has one)
-   3) online text-to-speech
----------------------------------------------------------------- */
+  
+  
+  
+/* ---------- AHMED VOICE AUDIO SYSTEM ---------- */
+
 var currentAudio = null;
 var speechVoices = [];
-var speechRetryTimer = null;
+
+var AUDIO_ROOT =
+"https://raw.githubusercontent.com/ahmeddawud/Arabic-with-Ahmed/refs/heads/main/audio/";
 
 function stopAllAudio(){
-  if(speechRetryTimer){ clearTimeout(speechRetryTimer); speechRetryTimer=null; }
-  if(currentAudio){ try{ currentAudio.pause(); }catch(e){} currentAudio=null; }
-  try{ if('speechSynthesis' in window) window.speechSynthesis.cancel(); }catch(e){}
-}
-
-/* Play a recorded file (tries .m4a, then .mp3); if none works, call onFail */
-function playRecorded(base, onFail){
-  var exts = ['.m4a', '.mp3'];
-  function tryNext(n){
-    if(n >= exts.length){ if(onFail) onFail(); return; }
-    try{
-      var a = new Audio(base + exts[n]);
-      var failed = false;
-      var fail = function(){ if(failed) return; failed = true; tryNext(n+1); };
-      a.preload = 'auto';
-      a.onerror = fail;
-      currentAudio = a;
-      var p = a.play();
-      if(p && p.catch) p.catch(fail);
-    }catch(e){
-      tryNext(n+1);
-    }
+  if(currentAudio){
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    currentAudio = null;
   }
-  stopAllAudio();
-  tryNext(0);
+
+  if("speechSynthesis" in window){
+    window.speechSynthesis.cancel();
+  }
 }
 
 function refreshSpeechVoices(){
-  if (!('speechSynthesis' in window)) return;
+  if(!("speechSynthesis" in window)) return;
   speechVoices = window.speechSynthesis.getVoices() || [];
 }
-if ('speechSynthesis' in window){
+
+if("speechSynthesis" in window){
   refreshSpeechVoices();
   window.speechSynthesis.onvoiceschanged = refreshSpeechVoices;
 }
 
-function isMaleName(name){
-  name = (name||'').toLowerCase();
-  if (/female|woman|girl/.test(name)) return false;
-  return /\bmale\b|\bman\b|ahmed|hamed|majed|maged|naayf|naif|tarik|tareq|hamza|omar|youssef|yusuf/.test(name);
-}
+function playRecorded(url, onFail){
+  stopAllAudio();
 
-function findVoice(lang){
-  var wanted = lang.toLowerCase();
-  var short = wanted.split('-')[0];
-  var matches = [];
-  var i, v;
-  for (i=0;i<speechVoices.length;i++){
-    v=(speechVoices[i].lang||'').toLowerCase().replace('_','-');
-    if(v===wanted) matches.push(speechVoices[i]);
-  }
-  if(!matches.length){
-    for (i=0;i<speechVoices.length;i++){
-      v=(speechVoices[i].lang||'').toLowerCase().replace('_','-');
-      if(v===short || v.indexOf(short+'-')===0) matches.push(speechVoices[i]);
-    }
-  }
-  if(!matches.length) return null;
-  for (i=0;i<matches.length;i++){
-    if(isMaleName(matches[i].name)) return matches[i];
-  }
-  return matches[0];
+  var audio = new Audio(url);
+  currentAudio = audio;
+  audio.preload = "auto";
+
+  audio.onerror = function(){
+    if(currentAudio === audio) currentAudio = null;
+    if(onFail) onFail();
+  };
+
+  audio.onended = function(){
+    if(currentAudio === audio) currentAudio = null;
+  };
+
+  audio.play().catch(function(){
+    if(currentAudio === audio) currentAudio = null;
+    if(onFail) onFail();
+  });
 }
 
 function playOnlineTTS(text, lang){
-  try {
-    if(currentAudio){ currentAudio.pause(); currentAudio=null; }
-    var code = lang.toLowerCase().indexOf('ar')===0 ? 'ar' : 'am';
-    var clean = String(text).replace(/[\u064B-\u065F\u0670]/g,'').trim();
-    currentAudio = new Audio('https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl='+code+'&q='+encodeURIComponent(clean));
-    currentAudio.preload='auto';
-    currentAudio.onerror=function(){
-      alert((code==='ar'?'የአረብኛ':'የአማርኛ')+' ድምጽ አልተጫወተም። ኢንተርኔትንና የሚዲያ ድምጽን ያረጋግጡ።');
-    };
-    var result=currentAudio.play();
-    if(result && result.catch) result.catch(function(){
-      alert('ድምጹ ለመጫወት አልቻለም። ኢንተርኔትንና የስልኩን ድምጽ ያረጋግጡ።');
+  try{
+    stopAllAudio();
+
+    var code = lang.indexOf("ar") === 0 ? "ar" : "am";
+
+    var url =
+      "https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=" +
+      code + "&q=" + encodeURIComponent(text);
+
+    var audio = new Audio(url);
+    currentAudio = audio;
+
+    audio.play().catch(function(){
+      alert("ድምፁ አልተጫወተም። ኢንተርኔትን ያረጋግጡ።");
     });
-  } catch(e){
-    alert('ድምጽ ማጫወት አልተቻለም።');
+
+  }catch(e){
+    alert("የድምፅ ችግር ተፈጥሯል።");
   }
 }
 
 function speak(text, lang){
   if(!text) return;
+
   stopAllAudio();
-  var synth = ('speechSynthesis' in window) ? window.speechSynthesis : null;
-  if(!synth || typeof SpeechSynthesisUtterance==='undefined'){
-    playOnlineTTS(text,lang);
-    return;
-  }
+
   refreshSpeechVoices();
-  var voice=findVoice(lang);
-  if(!voice){
-    speechRetryTimer=setTimeout(function(){
-      refreshSpeechVoices();
-      var laterVoice=findVoice(lang);
-      if(laterVoice) speakWithVoice(text,lang,laterVoice);
-      else playOnlineTTS(text,lang);
-    },700);
+
+  if(!("speechSynthesis" in window)){
+    playOnlineTTS(text, lang);
     return;
   }
-  speakWithVoice(text,lang,voice);
-}
 
-function speakWithVoice(text,lang,voice){
-  try{
-    var synth=window.speechSynthesis;
-    synth.cancel();
-    var utterance=new SpeechSynthesisUtterance(text);
-    utterance.lang=voice.lang||lang;
-    utterance.voice=voice;
-    utterance.rate=0.85;
-    utterance.pitch=0.8;
-    utterance.volume=1;
-    var usedFallback=false;
-    utterance.onerror=function(){
-      if(!usedFallback){ usedFallback=true; playOnlineTTS(text,lang); }
-    };
-    synth.speak(utterance);
-  }catch(e){
-    playOnlineTTS(text,lang);
+  var shortLang = lang.split("-")[0];
+
+  var voice = speechVoices.find(function(v){
+    return v.lang.toLowerCase().indexOf(shortLang) === 0;
+  });
+
+  if(!voice){
+    playOnlineTTS(text, lang);
+    return;
   }
+
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.voice = voice;
+  utterance.lang = voice.lang;
+  utterance.rate = 0.85;
+  utterance.pitch = 0.9;
+  utterance.volume = 1;
+
+  utterance.onerror = function(){
+    playOnlineTTS(text, lang);
+  };
+
+  window.speechSynthesis.speak(utterance);
 }
 
-/* recorded file first, then fallback */
+/* Ahmed's recorded Arabic voice first */
+
 function speakWord(i, kind){
-  if(kind === 'ar'){
-    var d = getDialect();
-    playRecorded('audio/' + d + '/' + i, function(){ speak(words[i][d], 'ar-SA'); });
-  } else {
-    playRecorded('audio/am/' + i, function(){ speak(words[i].meaning, 'am-ET'); });
+
+  if(kind === "ar"){
+
+    var dialect = getDialect();
+
+    if(dialect === "fusha"){
+      var url = AUDIO_ROOT + "fusha/" + i + ".mp3";
+
+      playRecorded(url, function(){
+        speak(words[i].fusha, "ar-SA");
+      });
+
+    }else{
+      speak(words[i].gulf, "ar-SA");
+    }
+
+  }else{
+
+    var amharicURL = AUDIO_ROOT + "am/" + i + ".mp3";
+
+    playRecorded(amharicURL, function(){
+      speak(words[i].meaning, "am-ET");
+    });
+
   }
 }
+
 function speakLetter(i){
-  playRecorded('audio/letters/' + i, function(){ speak(letters[i][0], 'ar-SA'); });
+  var url = AUDIO_ROOT + "letters/" + i + ".mp3";
+
+  playRecorded(url, function(){
+    speak(letters[i][0], "ar-SA");
+  });
+}
+ar-SA'); });
 }
 
 /* ---------- cards ---------- */
